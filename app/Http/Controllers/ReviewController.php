@@ -82,7 +82,7 @@ class ReviewController extends Controller
         $validated  = $request->validated();
         $review = new Review();
         $this->storeOrUpdateReview($request, $review);
-        return redirect('reviews')->with('message','The Review was successfully Added.');
+        return redirect(route('reviews.index'))->with('message','The Review was successfully Added.');
     }
 
     public function show($id)
@@ -100,7 +100,7 @@ class ReviewController extends Controller
     {
         $validated  = $request->validated();
         $this->storeOrUpdateReview($request, $review);
-        return redirect('reviews')->with('message','The Review was successfully Updated.');
+        return redirect(route('reviews.index'))->with('message','The Review was successfully Updated.');
     }
 
     public function storeOrUpdateReview(Request $request, Review $review){

@@ -22,7 +22,12 @@ class Category extends Model
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
+        return $this->hasMany(Category::class, 'parent_id', 'id')->with('categories');
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'id');
     }
 
     public function image()

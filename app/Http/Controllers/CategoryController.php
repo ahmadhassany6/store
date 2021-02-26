@@ -25,30 +25,33 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = $request->trash ? Category::onlyTrashed() : Category::all();
-            $dataTable = Datatables::of($data)
-                ->addColumn('parent', function ($row) {
-                    $parent = null;
-                    if ($row->parent != null) {
-                        $parent = $row->parent->name;
-                    }
-                    return $parent;
-                })
-                ->addColumn('products', function ($row) {
-                    return count($row->products);
-                })
-                ->addColumn('image', function ($row) {
-                    $image = '<img src="' . $row->ImagePath . '" border="0" width="150" class="img-rounded" alt="' . $row->image()->first()->saved_name . '" align="center" />';
-                    return $image;
-                });
+        $categories = Category::where('depth',0)->with('children')->get();
 
-            return $this->actionButtons($request,$dataTable)->rawColumns(['action', 'image', 'parent', 'products'])->make('true');
-        }
-        if (!$request->has('trash')) {
-            return view('category.index');
-        }
-        return view('category.trashed');
+        return view('category.draft', compact('categories'));
+//        if ($request->ajax()) {
+//            $data = $request->trash ? Category::onlyTrashed() : Category::all();
+//            $dataTable = Datatables::of($data)
+//                ->addColumn('parent', function ($row) {
+//                    $parent = null;
+//                    if ($row->parent != null) {
+//                        $parent = $row->parent->name;
+//                    }
+//                    return $parent;
+//                })
+//                ->addColumn('products', function ($row) {
+//                    return count($row->products);
+//                })
+//                ->addColumn('image', function ($row) {
+//                    $image = '<img src="' . $row->ImagePath . '" border="0" width="150" class="img-rounded" alt="' . $row->image()->first()->saved_name . '" align="center" />';
+//                    return $image;
+//                });
+//
+//            return $this->actionButtons($request,$dataTable)->rawColumns(['action', 'image', 'parent', 'products'])->make('true');
+//        }
+//        if (!$request->has('trash')) {
+//            return view('category.index');
+//        }
+//        return view('category.trashed');
     }
 
     public function actionButtons(Request $request,$dataTable){

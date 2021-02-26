@@ -18,140 +18,83 @@
 @endsection
 
 @section('content')
+@php
+    $url = url()->current();
+@endphp
 <div class="products">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="filters">
                     <ul>
-                        <li class="active" data-filter="*">All Products</li>
-                        <li data-filter=".des">Featured</li>
-                        <li data-filter=".dev">Flash Deals</li>
-                        <li data-filter=".gra">Last Minute</li>
+                        @foreach($categories as $category)
+                            @if(str_contains($url, $category->id))
+                                <a href="{{ route('products', ['category' => $category->id ]) }}"><li class="active" data-filter=".des">{{ $category->name }}</li></a>
+                            @else
+                                <a href="{{ route('products', ['category' => $category->id ]) }}"><li  data-filter=".des">{{ $category->name }}</li></a>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" >
                 <div class="filters-content">
-                    <div class="row grid">
-                        <div class="col-lg-4 col-md-4 all des">
-                            <div class="product-item">
-                                <a href="#"><img src="assets2/images/product_01.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$18.25</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (12)</span>
+                    <div class="row grid" id="products">
+                        @foreach($products as $product)
+                            <div class="col-lg-4 col-md-4 all des">
+                                <div class="product-item">
+                                    <a href="{{ route('product', ['product' => $product->id ]) }}"><img height="300px" src="{{ $product->ImagePath }}" alt="{{ $product->ImagePath }}"></a>
+                                    <div class="down-content">
+                                        <a href="#"><h4>{{ $product->name }}</h4></a>
+                                        <h6>{{ $product->price }}₺</h6>
+                                        <div style="text-align: center;"><p>{!! $product->description !!}</p></div>
+                                        <ul class="stars">
+                                            @php
+                                                $star = 0;
+                                            @endphp
+                                            @for($star ; $star < $stars[$product->id]; $star++)
+                                                <li><i style="color:gold" class="fa fa-star"></i></li>
+                                            @endfor
+                                            @for($star ; $star < 5; $star++)
+                                                <li><i  class="fa fa-star"></i></li>
+                                            @endfor
+                                        </ul>
+                                        <span>Reviews ({{ $reviews[$product->id] }})</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all dev">
-                            <div class="product-item">
-                                <a href="#"><img src="assets2/images/product_02.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$16.75</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (24)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all gra">
-                            <div class="product-item">
-                                <a href="#"><img src="assets2/images/product_03.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$32.50</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (36)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all gra">
-                            <div class="product-item">
-                                <a href="#"><img src="assets2/images/product_04.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$24.60</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (48)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all dev">
-                            <div class="product-item">
-                                <a href="#"><img src="assets2/images/product_05.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$18.75</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (60)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all des">
-                            <div class="product-item">
-                                <a href="#"><img src="assets2/images/product_06.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$12.50</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (72)</span>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
             <div class="col-md-12">
                 <ul class="pages">
-                    <li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                @php
+                    if(app('request')->input('page') != null){
+                        $current = app('request')->input('page');
+                    }
+                    else{
+                        $current = 1;
+                    }
+
+                @endphp
+                @if(app('request')->input('page') != null)
+                    @if( $current != 1)
+                        <li><a href="{{ $products->url(1) }}#products"><i class="fa fa-angle-double-left"></i></a></li>
+                    @endif
+                    @if( $current != 1)
+                        <li><a href="{{ $products->previousPageUrl() }}#products"><i class="fa fa-angle-left"></i></a></li>
+                    @endif
+                    <li><a href="{{ $products->url($current) }}#products">{{ $current }}</a></li>
+                @else
+                    <li><a href="{{ $products->url(1) }}#products">1</a></li>
+                @endif
+                @if( $current != $products->lastPage())
+                    <li><a href="{{ $products->nextPageUrl() }}#products"><i class="fa fa-angle-right"></i></a></li>
+                @endif
+                @if($current != $products->lastPage())
+                    <li><a href="{{ $products->url($products->lastPage()) }}#products"><i class="fa fa-angle-double-right"></i></a></li>
+                @endif
                 </ul>
             </div>
         </div>

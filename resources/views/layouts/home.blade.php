@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/star.css') }}" rel="stylesheet">
 
     <title>@yield('title')</title>
 
@@ -25,7 +26,12 @@
     <link rel="stylesheet" href="{{ asset('assets2/css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ asset('assets2/css/templatemo-sixteen.css') }} ">
     <link rel="stylesheet" href="{{ asset('assets2/css/owl.css') }}">
-
+    <style>
+        img:hover{
+            opacity: 0.8;
+            transform: scale(0.9);
+        }
+    </style>
 </head>
 
 <body>

@@ -16,7 +16,7 @@ Route::get('/', function () {return view('home.index');});
 Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/products', [HomeController::class, 'products'])->name('products');
+Route::get('/products/{category?}', [HomeController::class, 'products'])->name('products');
 Route::get('/product/{product}', [HomeController::class, 'product'])->name('product');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
