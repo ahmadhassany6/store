@@ -114,8 +114,6 @@ class ReviewController extends Controller
 
     public function destroy(Review $review)
     {
-        $review->to_show = 0;
-        $review->save();
         $review->delete();
         return redirect()->back();
     }

@@ -16,60 +16,40 @@
 @endsection
 
 @section('content')
+    <style>
+        #basket{
+            background: #f33f3f;
+            border: black;
+            color: white;
+        }
+
+        #Main-Image:hover {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-md-1 col-1" >
                 <div>
-                    <img style="width:100%;cursor: pointer;" src="https://cdn.dsmcdn.com/ty63/product/media/images/20210130/19/58701137/136116576/1/1_org_zoom.jpg" />
-                    <img style="width:100%;cursor: pointer;" src="https://cdn.dsmcdn.com/ty63/product/media/images/20210130/19/58701137/136116576/1/1_org_zoom.jpg" />
-                    <img style="width:100%;cursor: pointer;" src="https://cdn.dsmcdn.com/ty63/product/media/images/20210130/19/58701137/136116576/1/1_org_zoom.jpg" />
-                    <img style="width:100%;cursor: pointer;" src="https://cdn.dsmcdn.com/ty63/product/media/images/20210130/19/58701137/136116576/1/1_org_zoom.jpg" />
+                    <img onclick="document.getElementById('Main-Image').src=this.src" style="width:100%;cursor: pointer;margin-bottom: 10px;" src="{{ $product->ImagePath }}" />
+                    @foreach($images as $image)
+                        <img onclick="document.getElementById('Main-Image').src=this.src" style="width:100%;cursor: pointer;margin-bottom: 10px;" src="{{ asset("storage/images/" . \App\Models\Product::$folderName . '/' . $image->saved_name) }}" />
+                    @endforeach
                 </div>
             </div>
             <div class="col-md-4 col-4">
-                <img style="width:100%;" src="https://cdn.dsmcdn.com/ty63/product/media/images/20210130/19/58701137/136116576/1/1_org_zoom.jpg" />
+                <img id="Main-Image" style="width:100%;" src="{{ $product->ImagePath }}" />
             </div>
             <div class="col-md-6 col-6" style="width:100%;display: inline-flex">
                 <div class="col-md-6  col-6">
                     <div id="VP" name="VP">
-                        <h3 id="1">color</h3>
-                        <select style="width: 100%;" id="color" name="color" class="custom-select form-control">
-                            <option value="red">red</option>
-                            <option value="purple">purple</option>
-                        </select>
-                        <h3 id="2">size</h3>
-                        <select id="size" name="size" class="custom-select form-control">
-                            <option value="small">small</option>
-                            <option value="big">big</option>
-                        </select>
-                        <h3 id="1">color</h3>
-                        <select id="color" name="color" class="custom-select form-control">
-                            <option value="red">red</option>
-                            <option value="purple">purple</option>
-                        </select>
-                        <h3 id="2">size</h3>
-                        <select id="size" name="size" class="custom-select form-control">
-                            <option value="small">small</option>
-                            <option value="big">big</option>
-                        </select>
-                        <h3 id="1">color</h3>
-                        <select id="color" name="color" class="custom-select form-control">
-                            <option value="red">red</option>
-                            <option value="purple">purple</option>
-                        </select>
-                        <h3 id="2">size</h3>
-                        <select id="size" name="size" class="custom-select form-control">
-                            <option value="small">small</option>
-                            <option value="big">big</option>
-                        </select>
-                        <div style="text-align: center;margin-top: 10px;">
-                            <a class="btn btn-primary" name="basket" id="basket" onclick="addToBasket(1)">Add To Basket</a>
-                        </div>
+                        {!! $OptionVariantsList !!}
                     </div>
                 </div>
                 <div class="col-md-6  col-6">
                     <p>
-                        Emmet is great for that. With it installed in the code editor you are using, you can type “lorem” and then tab and it will expand into a paragraph of Lorem Ipsum placeholder text. But it can do more! You can control how much you get, place it within HTML structure as it expands, and get different bits of it in repeated elements.
+                        {!! $product->description !!}
                     </p>
                     <hr>
                     <div class="form-group">

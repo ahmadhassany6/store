@@ -55,8 +55,8 @@
                 <label class="form-label" for="show">Should it be Displayed</label>
                 <div id="show" name="show"  style="margin: 10px 0;">
                     <select name='to_show' id='to_show' class='custom-select form-control'>
-                        <option @if(old('to_show') == 1) selected @endif value='1'>Yes</option>
-                        <option @if(old('to_show') == 0) selected @endif value='0'>No</option>
+                        <option @if(old('to_show',$review->to_show) == 1) selected @endif value='1'>Yes</option>
+                        <option @if(old('to_show',$review->to_show) == 0) selected @endif value='0'>No</option>
                     </select>
                 </div>
             </div>

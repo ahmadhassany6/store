@@ -64,6 +64,16 @@
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
 
+            <div class="form-group">
+                <label class="form-label" for="admin">Is Admin</label>
+                <div id="admin" name="admin"  style="margin: 10px 0;">
+                    <select name='is_admin' id='is_admin' class='custom-select form-control'>
+                        <option @if(old('to_show') == 1) selected @endif value='1'>Yes</option>
+                        <option @if(old('to_show') == 0) selected @endif value='0'>No</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="form-group" style="text-align:center;">
                 <button class="btn btn-success" type="submit">Save Record</button>
                 <a class="btn btn-danger " href='{{ route('users.index') }}' style="text-align:center;">

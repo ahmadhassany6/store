@@ -188,7 +188,7 @@ class ProductController extends Controller
             "price" => 'required|numeric',
             "categories" => 'required',
             "primary" => "image|mimes:jpeg,png,jpg",
-            "images.*" => "image|mimes:jpeg,png,jpg",
+            "images.*" => "image|mimes:jpeg,png,jpg,jfif",
         ]);
 
         if ($request->has('categories')) {

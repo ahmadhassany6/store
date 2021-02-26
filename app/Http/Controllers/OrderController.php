@@ -92,7 +92,7 @@ class OrderController extends Controller
         return response()->json(['data'=> $OptionVariantsList,'success'=>'Added Successfully']);
     }
 
-    public function getAllOptionVariant($OptionVariantsList,$product)
+    public static function getAllOptionVariant($OptionVariantsList,$product)
     {
         $variants = $OptionVariantsList->keys();
         $list = "";

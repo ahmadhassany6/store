@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -31,6 +30,7 @@
             opacity: 0.8;
             transform: scale(0.9);
         }
+
     </style>
 </head>
 
@@ -93,6 +93,33 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ $contact }}" href="{{ route('contact') }}">Contact Us</a>
+                    </li>
+                    <li style="margin-left:200px;float:right;" class="nav-item">
+                        @guest()
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @if (Route::has('login'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    </li>
+                                @endif
+                                <div class="dropdown-divider"></div>
+                                @if (Route::has('register'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    </li>
+                                @endif
+                            </div>
+                        @else
+                            <li class="nav-item">
+                                {{ Auth::user()->name }}
+                            </li>
+                            <a id="logout" class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        @endguest
                     </li>
                 </ul>
             </div>

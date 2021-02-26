@@ -18,11 +18,13 @@ class HomeController extends Controller
 
     public function products(Category $category = null)
     {
-        $categories = Category::all();
+        $parentDepth =  - 1;
+        $childDepthCategories = [];
         if($category){
             $products = $category->products()->paginate(6);
         }
         else{
+            $categories = Category::all();
             $products = Product::paginate(6);
         }
         $reviews = [];
@@ -38,8 +40,22 @@ class HomeController extends Controller
                 $stars[$product->id] = 5;
             }
         }
+        if($category){
+            $parentDepth = $category->depth - 1;
+            $childDepth = $category->depth + 1;
+            $parentDepthCategories = null;
+            $parentID = $category->parent_id;
+            if($category->depth != 0){
+                $parentDepthCategories = Category::where('depth', '=', $parentDepth)->get();
+            }
 
-        return view('home.products',compact('categories','products','stars','reviews'));
+            $categories = Category::where('depth', '=', $category->depth)->where('parent_id','=', $category->parent_id)->get();
+            $childDepthCategories = Category::where('depth', '=',  $childDepth)->where('parent_id','=', $category->id)->get();
+
+            return view('home.products',compact('categories','products','stars','reviews','parentDepth','parentID','parentDepthCategories', 'childDepthCategories'));
+        }
+
+        return view('home.products',compact('categories','products','stars','reviews','parentDepth','childDepthCategories'));
     }
 
     public function contact()
@@ -54,6 +70,11 @@ class HomeController extends Controller
 
     public function product(Product $product)
     {
-        return view('home.single');
+        $primary = $product->image()->where('is_primary',1)->get();
+        $images = $product->image()->where('is_primary',0)->get();
+        $OptionVariantsList = $product->optionVariant()->get()->groupBy('variant_id');
+        $OptionVariantsList = OrderController::getAllOptionVariant($OptionVariantsList,$product->id);
+
+        return view('home.single',compact('primary','images','product' , 'OptionVariantsList'));
     }
 }

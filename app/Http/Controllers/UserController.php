@@ -21,7 +21,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = $request->trash ? User::onlyTrashed() : User::select()->where('id', '!=', Auth::user()->id);
+            $data = $request->trash ? User::onlyTrashed() : User::all();
             $dataTable = Datatables::of($data)
                 ->addColumn('image', function ($row) {
                     $image = '<img src="' . $row->ImagePath . '" border="0" width="150" class="img-rounded" alt="' . $row->ImageAlt . '" align="center" />';

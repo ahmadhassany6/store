@@ -22,7 +22,7 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 
-Route::group(['prefix'=>'cp'],function () {
+Route::group(['prefix'=>'cp', 'middleware' => 'admin'],function () {
     Route::get('/', function () {return view('home');})->middleware(['auth']);
 
 

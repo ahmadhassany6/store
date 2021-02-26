@@ -24,6 +24,21 @@
 <div class="products">
     <div class="container">
         <div class="row">
+            @if($parentDepth > -1)
+                <div class="col-md-12">
+                    <div class="filters">
+                        <ul>
+                            @foreach($parentDepthCategories as $category)
+                                @if(str_contains($parentID, $category->id))
+                                    <a href="{{ route('products', ['category' => $category->id ]) }}"><li class="active" style="color:green;" data-filter=".des">{{ $category->name }}</li></a>
+                                @else
+                                    <a href="{{ route('products', ['category' => $category->id ]) }}"><li  data-filter=".des">{{ $category->name }}</li></a>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
             <div class="col-md-12">
                 <div class="filters">
                     <ul>
@@ -37,6 +52,17 @@
                     </ul>
                 </div>
             </div>
+            @if(count($childDepthCategories) > 0)
+                <div class="col-md-12">
+                    <div class="filters">
+                        <ul>
+                            @foreach($childDepthCategories as $category)
+                                <a href="{{ route('products', ['category' => $category->id ]) }}"><li data-filter=".des">{{ $category->name }}</li></a>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
             <div class="col-md-12" >
                 <div class="filters-content">
                     <div class="row grid" id="products">
