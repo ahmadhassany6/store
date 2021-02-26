@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.Login')
 
 @section('content')
 <div class="container" style="margin-left:620px;">

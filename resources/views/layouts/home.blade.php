@@ -31,6 +31,24 @@
             transform: scale(0.9);
         }
 
+        .dropdown2 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown2-content {
+            display: none;
+            position: absolute;
+            background-color: #212529;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+
+        .dropdown2:hover .dropdown2-content {
+            display: block;
+        }
     </style>
 </head>
 
@@ -94,7 +112,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{ $contact }}" href="{{ route('contact') }}">Contact Us</a>
                     </li>
-                    <li style="margin-left:200px;float:right;" class="nav-item">
+                    <li style="margin-left:100px;float:right;" class="nav-item">
                         @guest()
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @if (Route::has('login'))
@@ -110,15 +128,34 @@
                                 @endif
                             </div>
                         @else
-                            <li class="nav-item">
-                                {{ Auth::user()->name }}
-                            </li>
-                            <a id="logout" class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                            <div class="flex">
+                                <div class="cart" style="float:left;font-size: 20px;margin-top: 10px;margin-right: 10px">
+                                    <a class="cart-button responsive-1" style="color:#f33f3f;float:left;" href="">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        <span style="color:#f33f3f;float:right;margin-left: 10px" id="cart_count" class="item-number ">0</span>
+                                    </a>
+
+                                </div>
+                                <div class="dropdown2">
+                                    <a class="nav-link">{{ auth()->user()->name }}</a>
+                                    <div class="dropdown2-content">
+                                        <ul>
+                                            <li>
+                                                <a class="nav-link" href="">Profile</a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    {{ __('Logout') }}
+                                                </a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
                         @endguest
                     </li>
                 </ul>

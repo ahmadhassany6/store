@@ -24,7 +24,7 @@ class HomeController extends Controller
             $products = $category->products()->paginate(6);
         }
         else{
-            $categories = Category::all();
+            $categories = Category::where('depth', '=', '0')->get();
             $products = Product::paginate(6);
         }
         $reviews = [];

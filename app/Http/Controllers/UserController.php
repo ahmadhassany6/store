@@ -80,6 +80,7 @@ class UserController extends Controller
         }
         $user->phone = $request->phone;
         $user->address = $request->address;
+        $user->is_admin = $request->is_admin;
         $user->save();
 
         return $user;

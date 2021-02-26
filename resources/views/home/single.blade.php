@@ -8,6 +8,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-content">
+                        <h2>{{ $product->name }}</h2>
                     </div>
                 </div>
             </div>
@@ -21,6 +22,10 @@
             background: #f33f3f;
             border: black;
             color: white;
+        }
+
+        h3{
+            font-size: large;
         }
 
         #Main-Image:hover {
@@ -48,6 +53,7 @@
                     </div>
                 </div>
                 <div class="col-md-6  col-6">
+                    <label>Product Description</label>
                     <p>
                         {!! $product->description !!}
                     </p>

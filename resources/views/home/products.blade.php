@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="text-content">
                     <h4>new arrivals</h4>
-                    <h2>sixteen products</h2>
+                    <h2>Our Products</h2>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                         <ul>
                             @foreach($parentDepthCategories as $category)
                                 @if(str_contains($parentID, $category->id))
-                                    <a href="{{ route('products', ['category' => $category->id ]) }}"><li class="active" style="color:green;" data-filter=".des">{{ $category->name }}</li></a>
+                                    <a href="{{ route('products', ['category' => $category->id ]) }}"><li class="active" style="color:coral;" data-filter=".des">{{ $category->name }}</li></a>
                                 @else
                                     <a href="{{ route('products', ['category' => $category->id ]) }}"><li  data-filter=".des">{{ $category->name }}</li></a>
                                 @endif
