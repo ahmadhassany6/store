@@ -48,22 +48,27 @@ class BasketController extends Controller
     public function store(Request $request)
     {
         $product = Product::find($request->product);
-        $options = $request->options;
-        $variants = $request->variants;
-
+        $options = null;
+        $variants = null;
         $optionVariantsList = array();
-        $description = "product: " . $product->name . ", Quantity: " . $request->quantity . ", ";
-        for($i = 0; $i < count($options); $i++){
-            $option = Option::where('name',$options[$i])->first();
-            $variant = Variant::where('name',$variants[$i])->first();
-            $description .= $variants[$i] . ": " . $options[$i];
-            if($i < count($options) - 1){
-                $description .= ", ";
-            }
-            array_push($optionVariantsList,$product->optionVariant()->where('option_id',$option->id)->where('variant_id',$variant->id)->first()->pivot->id);
-        }
-        $optionVariantsList = implode(',', $optionVariantsList);
+        $description = "product: " . $product->name . ", Quantity: " . $request->quantity;
 
+        if ($request->options != null){
+            $options = $request->options;
+            $variants = $request->variants;
+            $description .= ", ";
+            for($i = 0; $i < count($options); $i++){
+                $option = Option::where('name',$options[$i])->first();
+                $variant = Variant::where('name',$variants[$i])->first();
+                $description .= $variants[$i] . ": " . $options[$i];
+                if($i < count($options) - 1){
+                    $description .= ", ";
+                }
+                array_push($optionVariantsList,$product->optionVariant()->where('option_id',$option->id)->where('variant_id',$variant->id)->first()->pivot->id);
+            }
+        }
+
+        $optionVariantsList = implode(',', $optionVariantsList);
         $basket = Basket::where('order_variant_products', $optionVariantsList)->where('product_id', $request->product)->where('customer_id', $request->customer)->first();
 
         if (!$basket){
@@ -71,6 +76,7 @@ class BasketController extends Controller
         }
 
         $basket = $this->StoreOrUpdateBasket($request, $basket, $description, $optionVariantsList);
+
 
         $ids = array();
         $descriptions = array();

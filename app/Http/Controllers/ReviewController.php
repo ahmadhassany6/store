@@ -82,6 +82,11 @@ class ReviewController extends Controller
         $validated  = $request->validated();
         $review = new Review();
         $this->storeOrUpdateReview($request, $review);
+
+        if(str_contains(url()->previous(),'product')){
+            return redirect(url()->previous())->with('message','The Review was successfully Added');
+        }
+
         return redirect(route('reviews.index'))->with('message','The Review was successfully Added.');
     }
 
@@ -93,6 +98,11 @@ class ReviewController extends Controller
     {
         $customers = User::all();
         $products = Product::all();
+
+        if(str_contains(url()->previous(),'product')){
+            return response()->json(['review' => $review]);
+        }
+
         return view('review.edit',compact('customers','products','review'));
     }
 
@@ -100,6 +110,11 @@ class ReviewController extends Controller
     {
         $validated  = $request->validated();
         $this->storeOrUpdateReview($request, $review);
+
+        if(str_contains(url()->previous(),'product')){
+            return back()->with('message','The Review Was Updated Successfully');
+        }
+
         return redirect(route('reviews.index'))->with('message','The Review was successfully Updated.');
     }
 
@@ -108,7 +123,13 @@ class ReviewController extends Controller
         $review->customer_id = $request->customer_id;
         $review->product_id = $request->product_id;
         $review->stars = $request->stars;
-        $review->to_show = $request->to_show;
+        if($request->has('to_show')){
+            $review->to_show = $request->to_show;
+        }
+        else{
+            $review->to_show = 1;
+        }
+
         $review->save();
     }
 

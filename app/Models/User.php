@@ -77,7 +77,7 @@ class User extends Authenticatable
             return asset("storage/images/" . self::$folderName . '/' . $this->image->saved_name);
         }
 
-        return '';
+        return asset("storage/images/" . self::$folderName . "/avatar.png");
     }
 
     public function getImageAltAttribute(): string

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Basket;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,7 +13,6 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::all();
-
         return view('home.index', compact('categories'));
     }
 
@@ -63,6 +63,11 @@ class HomeController extends Controller
         return view('home.contact');
     }
 
+    public function profile()
+    {
+        return view('home.profile');
+    }
+
     public function about()
     {
         return view('home.about');
@@ -70,11 +75,21 @@ class HomeController extends Controller
 
     public function product(Product $product)
     {
+        $reviews = $product->reviews;
         $primary = $product->image()->where('is_primary',1)->get();
         $images = $product->image()->where('is_primary',0)->get();
         $OptionVariantsList = $product->optionVariant()->get()->groupBy('variant_id');
         $OptionVariantsList = OrderController::getAllOptionVariant($OptionVariantsList,$product->id);
 
-        return view('home.single',compact('primary','images','product' , 'OptionVariantsList'));
+        return view('home.single',compact('primary','images','product' , 'OptionVariantsList', 'reviews'));
+    }
+
+    public function getCountOfProductsInBasket(){
+        $basketProducts = Basket::where('customer_id' , auth()->user()->id)->count('*');
+        return response()->json(['success'=>'Added Successfully', 'basketProducts' => $basketProducts]);
+    }
+
+    public function getBasketContent(){
+        return view('home.basket');
     }
 }

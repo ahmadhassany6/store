@@ -20,6 +20,9 @@ Route::get('/products/{category?}', [HomeController::class, 'products'])->name('
 Route::get('/product/{product}', [HomeController::class, 'product'])->name('product');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+Route::get('/countOfProducts', [HomeController::class, 'getCountOfProductsInBasket'])->name('countOfProducts');
+Route::get('/basket', [HomeController::class, 'getBasketContent'])->name('basket');
 
 
 Route::group(['prefix'=>'cp', 'middleware' => 'admin'],function () {

@@ -80,7 +80,9 @@ class UserController extends Controller
         }
         $user->phone = $request->phone;
         $user->address = $request->address;
-        $user->is_admin = $request->is_admin;
+        if($request->has('is_admin')){
+            $user->is_admin = $request->is_admin;
+        }
         $user->save();
 
         return $user;
@@ -128,7 +130,10 @@ class UserController extends Controller
             $user->image()->save($image);
         }
 
-        return redirect(route('users.index'))->with('message','The Record Was Added Successfully');
+        if(str_contains(url()->previous(),'profile')){
+            return redirect(route('profile'))->with('message','The Profile Was Updated Successfully');
+        }
+        return redirect(route('users.index'))->with('message','The Record Was Updated Successfully');
     }
 
     public function destroy(User $user)

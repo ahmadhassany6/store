@@ -49,6 +49,22 @@
         .dropdown2:hover .dropdown2-content {
             display: block;
         }
+
+
+        .background-List {
+            color: red;
+            background: whitesmoke;
+        }
+
+        .avatar{
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        #OptionList{
+            top: 50px;
+        }
     </style>
 </head>
 
@@ -130,18 +146,19 @@
                         @else
                             <div class="flex">
                                 <div class="cart" style="float:left;font-size: 20px;margin-top: 10px;margin-right: 10px">
-                                    <a class="cart-button responsive-1" style="color:#f33f3f;float:left;" href="">
+                                    <a class="cart-button responsive-1" style="color:#f33f3f;float:left;" href="{{ route('basket') }}">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                         <span style="color:#f33f3f;float:right;margin-left: 10px" id="cart_count" class="item-number ">0</span>
                                     </a>
 
                                 </div>
                                 <div class="dropdown2">
-                                    <a class="nav-link">{{ auth()->user()->name }}</a>
-                                    <div class="dropdown2-content">
+                                    <img style="float:right" class="avatar" src="{{ auth()->user()->ImagePath }}">
+                                    <a style="float:left" class="nav-link">{{ auth()->user()->name }}</a>
+                                    <div id="OptionList" class="dropdown2-content">
                                         <ul>
                                             <li>
-                                                <a class="nav-link" href="">Profile</a>
+                                                <a class="nav-link" href="{{ route('profile') }}">Profile</a>
                                             </li>
                                             <li>
                                                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -171,6 +188,11 @@
 
 <div class="latest-products">
     <div class="container">
+        @if(session('message'))
+            <div class="alert alert-success manipulated" style="text-align:center;">
+                {{ session('message') }}
+            </div>
+        @endif
         @yield('content')
     </div>
 </div>
@@ -188,12 +210,33 @@
         </div>
     </div>
 </footer>
+@if(auth()->user())
+    <div hidden id="CurrentUser">{{ auth()->user()->id }}</div>
+    <div hidden id="countOfProducts">{{ route('countOfProducts') }}</div>
+@endif
+
 
 
 <!-- Bootstrap core JavaScript -->
 <script src="{{ asset('vendor2/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor2/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+<script>
+    $(document).ready(function () {
+        if(1){
+            $.ajax({
+                url: "{{ route('countOfProducts') }}",
+                type: 'get',
+                dataType: 'json',
+                success: function (response) {
+                    if(response){
+                        document.getElementById('cart_count').innerHTML = response.basketProducts;
+                    }
+                }
+            });
+        }
+    });
+</script>
 
 <!-- Additional Scripts -->
 <script src="{{ asset('assets2/js/custom.js') }}"></script>
@@ -201,7 +244,6 @@
 <script src="{{ asset('assets2/js/slick.js') }}"></script>
 <script src="{{ asset('assets2/js/isotope.js') }}"></script>
 <script src="{{ asset('assets2/js/accordions.js') }}"></script>
-
 
 <script language = "text/Javascript">
     cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
@@ -212,8 +254,9 @@
             t.style.color='#fff';
         }
     }
-</script>
 
+
+</script>
 
 </body>
 
