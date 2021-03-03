@@ -48,8 +48,10 @@ class HomeController extends Controller
             $childDepth = $category->depth + 1;
             $parentDepthCategories = null;
             $parentID = $category->parent_id;
+
             if($category->depth != 0){
-                $parentDepthCategories = Category::where('depth', '=', $parentDepth)->get();
+                $parent = Category::find($parentID);
+                $parentDepthCategories = Category::where('depth', '=', $parentDepth)->where('parent_id','=', $parent->parent_id)->get();
             }
 
             $categories = Category::where('depth', '=', $category->depth)->where('parent_id','=', $category->parent_id)->get();
