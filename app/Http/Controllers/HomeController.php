@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\confirmOrderRequest;
 use App\Models\Basket;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Types\Integer;
@@ -91,8 +93,33 @@ class HomeController extends Controller
     }
 
     public function getBasketContent(){
-        $content = Basket::where('customer_id', auth()->user()->id)->get();
+        $content = auth()->user()->baskets;
+        $basketTotal = BasketController::getBasketTotal();
 
-        return view('home.basket', compact('content'));
+        return view('home.basket', compact('content', 'basketTotal'));
+    }
+
+    public function checkOut(){
+        $basketTotal = BasketController::getBasketTotal();
+        if($basketTotal != 0){
+            return view('home.checkout',compact('basketTotal'));
+        }
+        else{
+            return redirect()->back();
+        }
+    }
+
+    public function confirmOrder(confirmOrderRequest $request){
+
+        $validated = $request->validated();
+
+        $user = User::find(auth()->user()->id);
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->save();
+
+        OrderController::store($request);
+
+        return redirect(route('home'))->with('message','The Order Was Submitted');
     }
 }

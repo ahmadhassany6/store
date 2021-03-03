@@ -79,6 +79,11 @@
                         {!! $product->description !!}
                     </p>
                     <hr>
+                    <label>Product Price</label>
+                    <p>
+                        {!! $product->price !!}₺
+                    </p>
+                    <hr>
                     <div class="form-group">
                         <label class="form-label" for="quantity">The Amount</label>
                         <div style="margin: 10px 0;">

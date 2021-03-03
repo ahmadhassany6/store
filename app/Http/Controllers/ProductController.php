@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Traits\ImageTrait;
 use App\Models\Image;
 use App\Models\Option;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Variant;
@@ -228,6 +229,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        foreach ($product->orderProducts as $orderProduct) {
+            $orderProduct->delete();
+        }
+
         $product->delete();
         return redirect()->back()->withErrors("The Record Was Deleted");
     }
@@ -258,6 +263,12 @@ class ProductController extends Controller
     public function restoreProduct($product)
     {
         $product = Product::withTrashed()->where('id', $product)->first();
+        $orderProducts = OrderProduct::withTrashed()->where('product_id', $product->id)->get();
+
+        foreach ($orderProducts as $orderProduct){
+            $orderProduct->restore();
+        }
+
         $product->restore();
         return redirect()->back()->with("message", "The Record Was Restored");
     }

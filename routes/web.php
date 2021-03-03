@@ -23,6 +23,8 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 Route::get('/countOfProducts', [HomeController::class, 'getCountOfProductsInBasket'])->name('countOfProducts');
 Route::get('/basket', [HomeController::class, 'getBasketContent'])->name('basket');
+Route::get('/checkout', [HomeController::class, 'checkOut'])->name('checkout');
+Route::post('/confirmorder', [HomeController::class, 'confirmOrder'])->name('confirmOrder');
 
 
 Route::group(['prefix'=>'cp', 'middleware' => 'admin'],function () {

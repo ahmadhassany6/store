@@ -150,10 +150,9 @@ class BasketController extends Controller
         $basket->save();
 
         $total = round($basket->quantity * $basket->product->price, 2);
+        $basketTotal = $this->getBasketTotal();
 
-        $basketTotal = 0;
-
-        return response()->json(['data' => 'successfully Updated' , 'total' => $total]);
+        return response()->json(['data' => 'successfully Updated' , 'total' => $total, 'basketTotal' => $basketTotal]);
     }
 
     public function destroy(Basket $basket)
@@ -165,5 +164,15 @@ class BasketController extends Controller
         }
 
         return response()->json(['success'=>'Added Successfully']);
+    }
+
+    public static function getBasketTotal(){
+        $basketTotal = 0;
+
+        foreach (auth()->user()->baskets as $record){
+            $basketTotal += $record->product->price * $record->quantity;
+        }
+
+        return round($basketTotal , 2);
     }
 }

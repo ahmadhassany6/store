@@ -115,7 +115,7 @@ class OrderController extends Controller
         return $list;
     }
 
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         $customer = $request->customer_id;
 
@@ -130,7 +130,10 @@ class OrderController extends Controller
         $order->save();
 
         foreach ($products as $detail){
-            $orderVariantProducts = explode(',', $detail->order_variant_products);
+            $orderVariantProducts = [];
+            if($detail->order_variant_products != ''){
+                $orderVariantProducts = explode(',', $detail->order_variant_products);
+            }
             $product = $detail->product_id;
             $quantity = $detail->quantity;
 
@@ -143,8 +146,10 @@ class OrderController extends Controller
             $orderProduct->amount = $quantity;
             $orderProduct->save();
 
-            foreach ($orderVariantProducts as $orderVariantProduct){
-                $orderProduct->optionVariantProducts()->attach($orderVariantProduct);
+            if($detail->order_variant_products != ''){
+                foreach ($orderVariantProducts as $orderVariantProduct){
+                    $orderProduct->optionVariantProducts()->attach($orderVariantProduct);
+                }
             }
         }
 
