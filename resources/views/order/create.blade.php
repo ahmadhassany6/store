@@ -211,6 +211,10 @@
 
 @push('scripts')
     <script>
+        function refreshTheQuantity(){
+            document.getElementById('quantity').value = 1;
+        }
+
         function deleteRecord(id){
             document.getElementById("HiddenID").innerHTML = id;
             document.getElementById("DeletionForm").action = "{{route('baskets.destroy', '')}}"+"/"+id;

@@ -11,7 +11,9 @@ use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Variant;
+use App\Notifications\OrderArrived;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Psy\Util\Json;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
@@ -99,7 +101,7 @@ class OrderController extends Controller
         foreach ($variants as $var){
             $variant = Variant::find($var);
             $list .= "<h3 id='$variant->id'>". $variant->name ."</h3>";
-            $list .= "<select id='" . $variant->name . "' name='" . $variant->name . "' class='custom-select form-control'>";
+            $list .= "<select id='" . $variant->name . "' name='" . $variant->name . "' class='custom-select form-control' onchange='refreshTheQuantity()'>";
             $OptionVariants = $OptionVariantsList[$var];
             foreach ($OptionVariants as $OptionVariant){
                 $option = $OptionVariant->option_id;
@@ -153,6 +155,8 @@ class OrderController extends Controller
             }
         }
 
+        $order->notify(new OrderArrived());
+
         return redirect(route('orders.index'))->with('message','The Order was successfully Added.');
     }
 
@@ -169,7 +173,7 @@ class OrderController extends Controller
         return view('order.show', compact('order','descriptions', 'quantities', 'products', 'customer', 'total'));
     }
 
-    public function orderDetails(Order $order, &$products, &$descriptions, &$quantities, &$customer, &$total){
+    public static function orderDetails(Order $order, &$products, &$descriptions, &$quantities, &$customer, &$total){
         $orderProducts = $order->orderProducts;
         foreach ($orderProducts as $orderProduct){
             array_push($products,$orderProduct->product);

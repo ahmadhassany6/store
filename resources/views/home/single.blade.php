@@ -252,6 +252,10 @@
     </div>
 
     <script>
+        function refreshTheQuantity(){
+            document.getElementById('quantity').value = 1;
+        }
+
         function addToBasket(id){
             if(document.getElementById("CurrentUser").innerHTML == ''){
                 $('#LoginModal').modal('toggle');
