@@ -20,6 +20,8 @@
     https://templatemo.com/tm-546-sixteen-clothing
 
     -->
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets2/css/fontawesome.css') }}">
@@ -213,6 +215,9 @@
 @if(auth()->user())
     <div hidden id="CurrentUser">{{ auth()->user()->id }}</div>
     <div hidden id="countOfProducts">{{ route('countOfProducts') }}</div>
+@else
+    <div hidden id="CurrentUser"></div>
+    <div hidden id="countOfProducts"></div>
 @endif
 
 
@@ -223,7 +228,7 @@
 
 <script>
     $(document).ready(function () {
-        if(1){
+        if(document.getElementById("CurrentUser").innerHTML != ''){
             $.ajax({
                 url: "{{ route('countOfProducts') }}",
                 type: 'get',
@@ -244,6 +249,9 @@
 <script src="{{ asset('assets2/js/slick.js') }}"></script>
 <script src="{{ asset('assets2/js/isotope.js') }}"></script>
 <script src="{{ asset('assets2/js/accordions.js') }}"></script>
+
+<script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
 <script language = "text/Javascript">
     cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field

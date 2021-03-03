@@ -22,4 +22,9 @@ class Basket extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }

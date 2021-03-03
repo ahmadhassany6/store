@@ -6,6 +6,7 @@ use App\Models\Basket;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Types\Integer;
 
 class HomeController extends Controller
@@ -90,6 +91,8 @@ class HomeController extends Controller
     }
 
     public function getBasketContent(){
-        return view('home.basket');
+        $content = Basket::where('customer_id', auth()->user()->id)->get();
+
+        return view('home.basket', compact('content'));
     }
 }

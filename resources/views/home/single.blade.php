@@ -18,6 +18,19 @@
 
 @section('content')
     <style>
+
+        #reviews-comments {
+            text-transform: uppercase;
+            background: linear-gradient(to right, #f33f3f 0%, black 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        font: {
+            size: 20vw;
+            family: $font;
+        };
+        }
+
+
         .user_name{
             font-size:14px;
             font-weight: bold;
@@ -122,7 +135,7 @@
             </div>
 
             <div class="container">
-                <h2 style="margin-bottom: 20px;text-align: center">Reviews</h2>
+                <h2 id="reviews-comments" style="margin-bottom: 20px;text-align: center">Reviews & Comments</h2>
                 @foreach($reviews as $review)
                     <div class="media">
                         <div class="media-left">
@@ -221,10 +234,10 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-body" style="text-align:center;">
-                        <p style="font-size:20px;">Are You Sure You Want To Delete The Review.</p>
+                        <p style="font-size:20px;">To Be able to add to the Basket you need to be logged in.</p>
                     </div>
                     <div class="modal-footer">
-                        <a type="submit" class="btn btn-primary">Login</a>
+                        <a href="{{ route('login') }}" class="btn btn-success">Login</a>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -235,8 +248,8 @@
 
     <script>
         function addToBasket(id){
-            if($("#CurrentUser").innerHTML == ''){
-                alert("You");
+            if(document.getElementById("CurrentUser").innerHTML == ''){
+                $('#LoginModal').modal('toggle');
             }
             else{
                 var children = document.getElementById("VP").children;
@@ -268,8 +281,7 @@
                     success: function (response) {
                         if(response){
                             var cart_count = document.getElementById('cart_count').innerHTML;
-                            cart_count = parseInt(cart_count) + 1;
-                            document.getElementById('cart_count').innerHTML = cart_count;
+                            document.getElementById('cart_count').innerHTML = response.contents;
                         }
                     }
                 });

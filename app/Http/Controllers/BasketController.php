@@ -86,7 +86,9 @@ class BasketController extends Controller
 
         $this->GetBasketContent($basket->customer_id,$ids,$descriptions,$images,$imageAlts,$quantities);
 
-        return response()->json(['success'=>'Added Successfully', 'ids' => $ids , 'orderDescriptions' => $descriptions, 'productImages' => $images, 'alts' => $imageAlts, 'quantities' => $quantities]);
+        $contents = Basket::where('customer_id', $request->customer)->count('*');
+
+        return response()->json(['success'=>'Added Successfully', 'contents' => $contents, 'ids' => $ids , 'orderDescriptions' => $descriptions, 'productImages' => $images, 'alts' => $imageAlts, 'quantities' => $quantities]);
     }
 
     public function GetBasketContent($user,&$ids,&$descriptions,&$images,&$imageAlts,&$quantities){
@@ -142,14 +144,25 @@ class BasketController extends Controller
         //
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Basket $basket)
     {
-        //
+        $basket->quantity = $request->quantity;
+        $basket->save();
+
+        $total = round($basket->quantity * $basket->product->price, 2);
+
+        $basketTotal = 0;
+
+        return response()->json(['data' => 'successfully Updated' , 'total' => $total]);
     }
 
     public function destroy(Basket $basket)
     {
         $basket->delete();
+
+        if(str_contains(url()->previous(),'basket')){
+            return back();
+        }
 
         return response()->json(['success'=>'Added Successfully']);
     }
